@@ -1,0 +1,14 @@
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\ShngZc.GeneratedMSBuildEditorConfig.editorconfig
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\ShngZc.AssemblyInfoInputs.cache
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\ShngZc.AssemblyInfo.cs
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\ShngZc.csproj.CoreCompileInputs.cache
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\bin\Debug\net7.0\ShngZc.exe
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\bin\Debug\net7.0\ShngZc.deps.json
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\bin\Debug\net7.0\ShngZc.runtimeconfig.json
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\bin\Debug\net7.0\ShngZc.dll
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\bin\Debug\net7.0\ShngZc.pdb
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\ShngZc.dll
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\refint\ShngZc.dll
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\ShngZc.pdb
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\ShngZc.genruntimeconfig.cache
+E:\Магистр_2_сем\КТМиАД\Timur_Veronica_C#\Veronica\ShngZc\obj\Debug\net7.0\ref\ShngZc.dll
