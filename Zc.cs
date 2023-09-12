@@ -1,86 +1,167 @@
 using System;
 
 
-class Zc
-{
-    private List<int> ni;
-    private int k;
-    
-    public Zc(List<int> ni) { this.ni = ni; k = ni.Count(); }
-    private void Swap(List<Double> array, int i, int j)
+namespace Program 
+{   
+    class SaverCoordinatesAndValues
     {
-        Double temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-
-    private void CocktailSort(List<Double> inArray)
-    {
-        int left = 0,
-             right = inArray.Count - 1;
-
-        while (left < right)
-        {
-            for (int i = left; i < right; i++)
-            {
-                if (inArray[i] > inArray[i + 1])
-                    Swap(inArray, i, i + 1);
-            }
-            right--;
-
-            for (int i = right; i > left; i--)
-            {
-                if (inArray[i - 1] > inArray[i])
-                    Swap(inArray, i - 1, i);
-            }
-            left++;
-        }
-    }
-
-    public List<Double> NormalGenerateX(int count)
-    {
-        Random rand = new Random();
-        List<Double> res = new List<double>();
-
-        for (int i = 0; i < ni[count]; i++)
-        {
-            double u1 = rand.NextDouble();
-            double u2 = rand.NextDouble();
-            if (i % 2 == 0) {
-                res.Add(Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2));
-            }
-            if (i % 2 != 0)
-            {
-                res.Add(Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2));
-            }
-        }
-        CocktailSort(res);
-        return res;
-    }
-
-    public List<Double> MainFunction(int N)
-    {
-        int n = 0;
+        private int i, j;
+        private double xi;
         
-    }
-    private double FunctionZc(int n)
-    {
-        double result = 0.0;
-        for (int i = 0; i < ni.Count(); i++) { n += ni[i]; }
-        for (int i = 0; i < k; i++)
+        public SaverCoordinatesAndValues() { }
+ 
+        public void setValues(int i, int j, double xi)
         {
-            double Rij = 1.0;
-            for (int j = 0; j < k; j++, Rij++)
-            {
-                result += Math.Log(ni[i] / ((j + 1.0) - 0.5) - 1.0) * Math.Log(n / ((Rij + 1.0) - 0.5) - 1.0);
-            }
+            this.i = i;
+            this.j = j;
+            this.xi = xi;
         }
-        result *= 1.0 / n;
-        return result;
+        public int getI { get { return i;} }
+        public int getJ { get { return j; } }
+        public double getXi { get { return xi; } }
     }
+    class Zc
+    {
+        private List<int> ni;
+        private int k;
 
+        public Zc(List<int> ni) { this.ni = ni; k = ni.Count(); }
+        private void swap(List<Double> array, int i, int j)
+        {
+            Double temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
 
+        private List<Double> cocktailSort(List<Double> inArray)
+        {
+            int left = 0,
+                 right = inArray.Count - 1;
+
+            while (left < right)
+            {
+                for (int i = left; i < right; i++)
+                {
+                    if (inArray[i] > inArray[i + 1])
+                        swap(inArray, i, i + 1);
+                }
+                right--;
+
+                for (int i = right; i > left; i--)
+                {
+                    if (inArray[i - 1] > inArray[i])
+                        swap(inArray, i - 1, i);
+                }
+                left++;
+            }
+            return inArray;
+        }
+
+        public List<double> normalGenerateX(int count)
+        {
+            Random rand = new Random();
+            List<double> res = new List<double>();
+
+            for (int i = 0; i < ni[count]; i++)
+            {
+                double u1 = rand.NextDouble();
+                double u2 = rand.NextDouble();
+                if (i % 2 == 0) {
+                    res.Add(Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2));
+                }
+                if (i % 2 != 0)
+                {
+                    res.Add(Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2));
+                }
+            }
+            return res;
+        }
+
+        //private double[,] searcherOfRang()
+        //{
+        //    double[,] R = new double[ni[0], k];
+
+        //}
+
+        private double functionZc(int n)
+        {
+            List<List<double>> start_massive = new List<List<double>>();
+            List<List<double>> sort_massive = new List<List<double>>();
+            List<List<int>> Rij = new List<List<int>>();
+            double result = 0.0;
+            
+            for (int i = 0; i < k; i++) n += ni[i];
+
+            for (int i = 0; i < k; i++)
+            {
+                start_massive.Add(normalGenerateX(i));
+            }
+
+            for (int i = 0; i < k; i++) 
+            {
+                List<double> a = new List<double>(start_massive[i].Count);
+                for (int j = 0; j < start_massive[i].Count; j++)
+                    a.Add(start_massive[i][j]);
+                sort_massive.Add(cocktailSort(a));
+            }
+
+            for (int j = 0; j < ni[0]; j++)
+                Console.WriteLine(start_massive[0][j]);
+            Console.WriteLine();
+            for (int j = 0; j < ni[0]; j++)
+                Console.WriteLine(sort_massive[0][j]);
+
+            for (int i = 0; i < k; i++) {
+                SaverCoordinatesAndValues accumulateRang = new SaverCoordinatesAndValues();
+                List<int> saverTemporaryMassive = new List<int>();
+                for (int j = 0; j < ni[i]; j++) {
+                    
+                    accumulateRang.setValues(i, j, start_massive[i][j]);
+                    for (int z = 0; z < ni[i]; z++)
+                    {
+                        if (accumulateRang.getXi == sort_massive[i][z])
+                        {
+                            saverTemporaryMassive.Add(z + 1);
+                            break;
+                        }
+                    }
+                
+                }
+                Rij.Add(saverTemporaryMassive);
+            }
+            for (int j = 0; j < Rij[0].Count; j++)
+                Console.WriteLine(Rij[0][j]);
+
+            //for (int i = 0; i < k; i++)
+            //{
+
+            //    for (int j = 0; j < k; j++)
+            //    {
+            //        result += Math.Log(ni[i] / ((j + 1.0) - 0.5) - 1.0) * Math.Log(n / ((Rij + 1.0) - 0.5) - 1.0);
+            //    }
+            //}
+            result *= 1.0 / n;
+            return result;
+        }
+
+        public List<double> mainFunction(int N)
+        {
+            int n = 0;
+            List<double> result = new List<double>();
+            for (int i = 0; i < N; i++)
+            {
+                result.Add(functionZc(n));
+            }
+            return result;
+        }
+
+    }
 }
+
+
+
+
+    
 
 
 

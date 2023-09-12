@@ -9,7 +9,16 @@ namespace Program
         {
             List<int> ni = new List<int> { 20, 20 }; 
             Zc value = new Zc(ni);
-            value.NormalGenerateX(0);
+            int N = 100;
+            Print(value.mainFunction(N));
+        }
+        
+        static void Print(List<Double> res)
+        {
+            for (int i = 0; i < res.Count; i++)
+            {
+                Console.WriteLine(res[i]);
+            }
         }
     }
 }
