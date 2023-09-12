@@ -83,11 +83,12 @@ namespace Program
 
         //}
 
-        private double functionZc(int n)
+        private double functionZc()
         {
             List<List<double>> start_massive = new List<List<double>>();
             List<List<double>> sort_massive = new List<List<double>>();
             List<List<int>> Rij = new List<List<int>>();
+            int n = 0;
             double result = 0.0;
             
             for (int i = 0; i < k; i++) n += ni[i];
@@ -104,12 +105,6 @@ namespace Program
                     a.Add(start_massive[i][j]);
                 sort_massive.Add(cocktailSort(a));
             }
-
-            for (int j = 0; j < ni[0]; j++)
-                Console.WriteLine(start_massive[0][j]);
-            Console.WriteLine();
-            for (int j = 0; j < ni[0]; j++)
-                Console.WriteLine(sort_massive[0][j]);
 
             for (int i = 0; i < k; i++) {
                 SaverCoordinatesAndValues accumulateRang = new SaverCoordinatesAndValues();
@@ -129,28 +124,27 @@ namespace Program
                 }
                 Rij.Add(saverTemporaryMassive);
             }
-            for (int j = 0; j < Rij[0].Count; j++)
-                Console.WriteLine(Rij[0][j]);
+                
 
-            //for (int i = 0; i < k; i++)
-            //{
+            for (int i = 0; i < k; i++)
+            {
 
-            //    for (int j = 0; j < k; j++)
-            //    {
-            //        result += Math.Log(ni[i] / ((j + 1.0) - 0.5) - 1.0) * Math.Log(n / ((Rij + 1.0) - 0.5) - 1.0);
-            //    }
-            //}
-            result *= 1.0 / n;
+                for (int j = 0; j < ni[i]; j++)
+                {
+                    result += Math.Log(ni[i] / (j + 1.0 - 0.5) - 1.0) * Math.Log(n / (Rij[i][j] - 0.5) - 1.0);
+                }
+            }
+            result /= n;
             return result;
         }
 
         public List<double> mainFunction(int N)
         {
-            int n = 0;
+            
             List<double> result = new List<double>();
             for (int i = 0; i < N; i++)
             {
-                result.Add(functionZc(n));
+                result.Add(functionZc());
             }
             return result;
         }
