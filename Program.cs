@@ -7,7 +7,7 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            List<int> ni = new List<int> { 10, 10 }; 
+            List<int> ni = new List<int> { 20, 20 }; 
             Zc value = new Zc(ni);
             int N = 100;
             Print(value.mainFunction(N));

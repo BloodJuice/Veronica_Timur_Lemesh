@@ -3,6 +3,7 @@ using System;
 
 namespace Program 
 {   
+    
     class SaverCoordinatesAndValues
     {
         private int i, j;
@@ -77,16 +78,11 @@ namespace Program
             return res;
         }
 
-        //private double[,] searcherOfRang()
-        //{
-        //    double[,] R = new double[ni[0], k];
-
-        //}
-
         private double functionZc()
         {
             List<List<double>> start_massive = new List<List<double>>();
-            List<List<double>> sort_massive = new List<List<double>>();
+            List<double> sort_massive = new List<double>();
+            List<double> a = new List<double>();
             List<List<int>> Rij = new List<List<int>>();
             int n = 0;
             double result = 0.0;
@@ -94,27 +90,30 @@ namespace Program
             for (int i = 0; i < k; i++) n += ni[i];
 
             for (int i = 0; i < k; i++)
-            {
                 start_massive.Add(normalGenerateX(i));
-            }
+            
 
             for (int i = 0; i < k; i++) 
             {
-                List<double> a = new List<double>(start_massive[i].Count);
                 for (int j = 0; j < start_massive[i].Count; j++)
                     a.Add(start_massive[i][j]);
-                sort_massive.Add(cocktailSort(a));
             }
+            for (int i = 0; i < k; i++)
+                cocktailSort(start_massive[i]);
+
+            sort_massive.AddRange(cocktailSort(a));
+            //Print(start_massive, "start_massive");
+            //Print(sort_massive, "sort_massive");
+
 
             for (int i = 0; i < k; i++) {
                 SaverCoordinatesAndValues accumulateRang = new SaverCoordinatesAndValues();
                 List<int> saverTemporaryMassive = new List<int>();
                 for (int j = 0; j < ni[i]; j++) {
-                    
                     accumulateRang.setValues(i, j, start_massive[i][j]);
-                    for (int z = 0; z < ni[i]; z++)
+                    for (int z = 0; z < n; z++)
                     {
-                        if (accumulateRang.getXi == sort_massive[i][z])
+                        if (accumulateRang.getXi == sort_massive[z])
                         {
                             saverTemporaryMassive.Add(z + 1);
                             break;
@@ -124,7 +123,7 @@ namespace Program
                 }
                 Rij.Add(saverTemporaryMassive);
             }
-                
+            //Print(Rij, "Rij");    
 
             for (int i = 0; i < k; i++)
             {
@@ -145,10 +144,31 @@ namespace Program
             for (int i = 0; i < N; i++)
             {
                 result.Add(functionZc());
+                Console.WriteLine(i);
             }
+            Print(result, "result");
             return result;
         }
-
+        private void Print(List<double> massive, string Title)
+        {
+            Console.WriteLine(Title);
+            for (int i = 0; i < massive.Count; i++)
+                Console.WriteLine(massive[i]);
+        }
+        private void Print(List<List<double>> massive, string Title)
+        {
+            Console.WriteLine(Title);
+            for (int i = 0; i < massive.Count; i++)
+                for (int j = 0; j < massive[i].Count; j++)
+                    Console.WriteLine(massive[i][j]);
+        }
+        private void Print(List<List<int>> massive, string Title)
+        {
+            Console.WriteLine(Title);
+            for (int i = 0; i < massive.Count; i++)
+                for (int j = 0; j < massive[i].Count; j++)
+                    Console.WriteLine(massive[i][j]);
+        }
     }
 }
 
