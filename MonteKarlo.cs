@@ -1,32 +1,25 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace Program 
-{   
-    
-    class SaverCoordinatesAndValues
-    {
-        private int i, j;
-        private double xi;
-        
-        public SaverCoordinatesAndValues() { }
- 
-        public void setValues(int i, int j, double xi)
-        {
-            this.i = i;
-            this.j = j;
-            this.xi = xi;
-        }
-        public int getI { get { return i;} }
-        public int getJ { get { return j; } }
-        public double getXi { get { return xi; } }
-    }
-    class Zc
+namespace Program
+{
+    class MonteKarlo
     {
         private List<int> ni;
-        private int k;
+        private int k, M;
+        private List<double> zcDistr;
 
-        public Zc(List<int> ni) { this.ni = ni; k = ni.Count(); }
+        public MonteKarlo(List<int> ni, List<double> zcDistr, int M) 
+        { 
+            this.ni = ni;
+            this.zcDistr = zcDistr;
+            this.M = M;
+            k = ni.Count(); 
+        }
+
         private void swap(List<Double> array, int i, int j)
         {
             Double temp = array[i];
@@ -57,7 +50,15 @@ namespace Program
             }
             return inArray;
         }
-        
+        public List<double> uniformDistr(int count)
+        {
+            Random rand = new Random();
+            List<double> res = new List<double>();
+
+            for (int i = 0; i < ni[count]; i++)
+                res.Add(rand.NextDouble());
+            return res;
+        }
         public List<double> normalGenerateX(int count)
         {
             Random rand = new Random();
@@ -67,19 +68,20 @@ namespace Program
             {
                 double u1 = rand.NextDouble();
                 double u2 = rand.NextDouble();
-                if (i % 2 == 0) {
+                if (i % 2 == 0)
+                {
                     res.Add(Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Sin(2.0 * Math.PI * u2));
                 }
                 if (i % 2 != 0)
                 {
                     res.Add(Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2));
                 }
-                
+
             }
             return res;
         }
 
-        private double functionZc()
+        private double functionMonteKarlo()
         {
             List<List<double>> start_massive = new List<List<double>>();
             List<double> sort_massive = new List<double>();
@@ -87,14 +89,15 @@ namespace Program
             List<List<int>> Rij = new List<List<int>>();
             int n = 0;
             double result = 0.0;
-            
+
             for (int i = 0; i < k; i++) n += ni[i];
 
-            for (int i = 0; i < k; i++)
-                start_massive.Add(normalGenerateX(i));
-            
+            start_massive.Add(uniformDistr(0));
+            //start_massive.Add(normalGenerateX(0));
+            start_massive.Add(normalGenerateX(1));
 
-            for (int i = 0; i < k; i++) 
+
+            for (int i = 0; i < k; i++)
             {
                 for (int j = 0; j < start_massive[i].Count; j++)
                     a.Add(start_massive[i][j]);
@@ -107,10 +110,12 @@ namespace Program
             //Print(sort_massive, "sort_massive");
 
 
-            for (int i = 0; i < k; i++) {
+            for (int i = 0; i < k; i++)
+            {
                 SaverCoordinatesAndValues accumulateRang = new SaverCoordinatesAndValues();
                 List<int> saverTemporaryMassive = new List<int>();
-                for (int j = 0; j < ni[i]; j++) {
+                for (int j = 0; j < ni[i]; j++)
+                {
                     accumulateRang.setValues(i, j, start_massive[i][j]);
                     for (int z = 0; z < n; z++)
                     {
@@ -120,7 +125,7 @@ namespace Program
                             break;
                         }
                     }
-                
+
                 }
                 Rij.Add(saverTemporaryMassive);
             }
@@ -138,14 +143,31 @@ namespace Program
             return result;
         }
 
-        public List<double> mainFunction(int N)
+        private double summa(List<double> mas)
         {
-            List<double> result = new List<double>();
-            for (int i = 0; i < N; i++)
-                result.Add(functionZc());
+            double sum = 0;
+            for (int i = 0; i < mas.Count; i++)
+                sum += mas[i];
             
-            //Print(result, "result");
-            return result;
+            return sum;
+        }
+
+        public double mainFunction(int N)
+        {
+            double m;
+            m = 0;
+            
+            for (int j = 0; j < M; j++)
+            {
+                List<double> result = new List<double>();
+                for (int i = 0; i < N; i++)
+                    result.Add(functionMonteKarlo());
+                
+                if (summa(zcDistr) > summa(result)) m++;
+                Console.WriteLine(j);
+            }
+            
+            return (1 - m / M);
         }
         private void Print(List<double> massive, string Title)
         {
@@ -169,11 +191,4 @@ namespace Program
         }
     }
 }
-
-
-
-
-    
-
-
 
