@@ -74,6 +74,7 @@ namespace Program
                 {
                     res.Add(Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2));
                 }
+                
             }
             return res;
         }
@@ -139,14 +140,13 @@ namespace Program
 
         public List<double> mainFunction(int N)
         {
-            
             List<double> result = new List<double>();
             for (int i = 0; i < N; i++)
             {
                 result.Add(functionZc());
                 Console.WriteLine(i);
             }
-            Print(result, "result");
+            //Print(result, "result");
             return result;
         }
         private void Print(List<double> massive, string Title)
